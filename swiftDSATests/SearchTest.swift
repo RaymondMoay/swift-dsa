@@ -45,5 +45,25 @@ final class SearchTest: XCTestCase {
         XCTAssertTrue(sut.binarySearch(needle: 3, haystack: haystack))
         XCTAssertFalse(sut.binarySearch(needle: 6, haystack: haystack))
     }
+    
+    func testTwoCrystalBalls() {
+        let randomFloor = Int.random(in: 1..<100_000)
+        var breaks = [Bool]()
+        
+        guard let sut = sut else {
+            return
+        }
+        
+        for i in 0..<100_000 {
+            if i >= randomFloor {
+                breaks.append(true)
+            } else {
+                breaks.append(false)
+            }
+        }
+        
+        XCTAssertEqual(sut.twoCrystalBalls(breaks: breaks), randomFloor)
+        XCTAssertEqual(sut.twoCrystalBalls(breaks: Array(repeating: false, count: 861)), -1)
+    }
 
 }
