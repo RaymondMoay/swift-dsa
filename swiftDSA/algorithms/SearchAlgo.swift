@@ -12,7 +12,13 @@ struct SearchAlgo {
      O(N)
      */
     func linearSearch(needle: Int, haystack: [Int]) -> Bool {
-        return haystack.contains(needle) // sub for a for loop and it will work too
+        for n in haystack {
+            if (n == needle) {
+                return true
+            }
+        }
+        
+        return false
     }
     
     /**
@@ -45,25 +51,25 @@ struct SearchAlgo {
      */
     
     func twoCrystalBalls(breaks: [Bool]) -> Int {
-        let jumpAmount =  Int(floor(Double(breaks.count).squareRoot()))
+        let jumpAmount = Int(floor(Double(breaks.count)).squareRoot())
         var floor = jumpAmount
         
         while floor < breaks.count {
             let didBreak = breaks[floor]
-            
             if didBreak {
-                // step through
-                let lo = max(floor - jumpAmount, 0)
+                // loop through the remaining
+                let lo = floor - jumpAmount + 1
                 let hi = floor
                 
-                for i in lo...hi {
-                    if breaks[i] {
-                        return i
+                for inBetweenFloors in lo...hi {
+                    let breaks = breaks[inBetweenFloors]
+                    if (breaks) {
+                        return inBetweenFloors
                     }
                 }
+            } else {
+                floor += jumpAmount
             }
-            
-            floor += jumpAmount
         }
         
         return -1
