@@ -1,5 +1,5 @@
 //
-//  LinearSearchTest.swift
+//  SearchAlgoTest.swift
 //  swiftDSATests
 //
 //  Created by Raymond Moay on 1/8/23.
