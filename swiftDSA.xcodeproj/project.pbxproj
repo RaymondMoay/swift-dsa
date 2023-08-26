@@ -16,6 +16,7 @@
 		43353DFB2A78EDDD0020D160 /* SearchAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43353DFA2A78EDDD0020D160 /* SearchAlgo.swift */; };
 		43353DFD2A78EE0C0020D160 /* SearchAlgoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43353DFC2A78EE0C0020D160 /* SearchAlgoTest.swift */; };
 		43AF45202A9A1E000084CCCF /* SortAlgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AF451F2A9A1E000084CCCF /* SortAlgo.swift */; };
+		43AF45222A9A21A80084CCCF /* SortAlgoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AF45212A9A21A80084CCCF /* SortAlgoTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		43353DFA2A78EDDD0020D160 /* SearchAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlgo.swift; sourceTree = "<group>"; };
 		43353DFC2A78EE0C0020D160 /* SearchAlgoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAlgoTest.swift; sourceTree = "<group>"; };
 		43AF451F2A9A1E000084CCCF /* SortAlgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortAlgo.swift; sourceTree = "<group>"; };
+		43AF45212A9A21A80084CCCF /* SortAlgoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortAlgoTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				43353DFC2A78EE0C0020D160 /* SearchAlgoTest.swift */,
+				43AF45212A9A21A80084CCCF /* SortAlgoTest.swift */,
 			);
 			path = swiftDSATests;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43AF45222A9A21A80084CCCF /* SortAlgoTest.swift in Sources */,
 				43353DFD2A78EE0C0020D160 /* SearchAlgoTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
