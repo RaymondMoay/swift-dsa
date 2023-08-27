@@ -14,14 +14,11 @@ struct SortAlgo {
      */
     func bubbleSort(numbers: [Int]) -> [Int] {
         var sorted = numbers
-        let length = numbers.count
         
-        for i in 0..<length {
-            // -1 to prevent array out of bounds
-            for j in 0..<(length - 1 - i) {
-                if sorted[j] > sorted[j+1] {
+        for i in 0..<sorted.count {
+            for j in 0..<(sorted.count - 1 - i) {
+                if (sorted[j] > sorted[j+1]) {
                     sorted.swapAt(j, j+1)
-                    print(sorted)
                 }
             }
         }
