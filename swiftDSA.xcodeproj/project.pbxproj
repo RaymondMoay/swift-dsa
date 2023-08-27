@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		430CD0052A9B5047001891D1 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430CD0042A9B5047001891D1 /* Queue.swift */; };
 		430CD0072A9B50D1001891D1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430CD0062A9B50D1001891D1 /* Node.swift */; };
+		430CD0092A9B5700001891D1 /* QueueTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430CD0082A9B5700001891D1 /* QueueTest.swift */; };
 		43353DD02A78EDAD0020D160 /* swiftDSAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43353DCF2A78EDAD0020D160 /* swiftDSAApp.swift */; };
 		43353DD22A78EDAD0020D160 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43353DD12A78EDAD0020D160 /* ContentView.swift */; };
 		43353DD42A78EDB00020D160 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43353DD32A78EDB00020D160 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		430CD0042A9B5047001891D1 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		430CD0062A9B50D1001891D1 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		430CD0082A9B5700001891D1 /* QueueTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTest.swift; sourceTree = "<group>"; };
 		43353DCC2A78EDAD0020D160 /* swiftDSA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftDSA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43353DCF2A78EDAD0020D160 /* swiftDSAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftDSAApp.swift; sourceTree = "<group>"; };
 		43353DD12A78EDAD0020D160 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			children = (
 				43353DFC2A78EE0C0020D160 /* SearchAlgoTest.swift */,
 				43AF45212A9A21A80084CCCF /* SortAlgoTest.swift */,
+				430CD0082A9B5700001891D1 /* QueueTest.swift */,
 			);
 			path = swiftDSATests;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 			files = (
 				43AF45222A9A21A80084CCCF /* SortAlgoTest.swift in Sources */,
 				43353DFD2A78EE0C0020D160 /* SearchAlgoTest.swift in Sources */,
+				430CD0092A9B5700001891D1 /* QueueTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

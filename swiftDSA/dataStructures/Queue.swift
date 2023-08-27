@@ -8,20 +8,18 @@
 import Foundation
 
 struct Queue<T> {
-    public var length: Int
-    private var head: Node<T>? // this is a class, so it is pass by reference
-    private var tail: Node<T>?
+    var length: Int
+    var head: Node<T>? // this is a class, so it is pass by reference
+    var tail: Node<T>?
     
     mutating func enqueue(val: T) {
         let newNode = Node(value: val, next: nil)
-        
+        length += 1
         guard let tail = tail else {
             self.tail = newNode
             self.head = newNode
             return
         }
-        
-        length += 1
         
         tail.next = newNode
         self.tail = newNode
