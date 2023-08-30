@@ -12,7 +12,7 @@ final class QueueTest: XCTestCase {
     var sut: Queue<Int>?
 
     override func setUpWithError() throws {
-        let tailNode = Node(value: 1, next: nil)
+        let tailNode = Node(value: 1)
         let headNode = Node(value: 5, next: Node(value: 4, next: Node(value: 3, next: Node(value: 2, next: tailNode))))
         sut = Queue(length: 5, head: headNode, tail: tailNode)
     }

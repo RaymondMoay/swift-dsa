@@ -13,7 +13,7 @@ struct Queue<T> {
     var tail: Node<T>?
     
     mutating func enqueue(val: T) {
-        let newNode = Node(value: val, next: nil)
+        let newNode = Node(value: val)
         length += 1
         guard let tail = tail else {
             self.tail = newNode
