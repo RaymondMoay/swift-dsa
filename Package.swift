@@ -4,5 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftDSA"
+    name: "SwiftDSA",
+    products: [
+        .library(
+            name: "SwiftDSA",
+            targets: ["SwiftDSA"])
+    ],
+    targets: [
+        .target(name: "SwiftDSA"),
+        .testTarget(name: "SwiftDSATests",
+                    dependencies: ["SwiftDSA"])
+    ]
 )
