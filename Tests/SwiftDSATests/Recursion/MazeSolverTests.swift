@@ -44,18 +44,6 @@ struct MazeSolverTests {
         let end = Point(x: 1, y: 5)
 
         let result = MazeSolver.perform(maze: maze, wall: "x", start: start, end: end)
-        #expect(drawPath(maze: maze, path: result) == drawPath(maze: maze, path: expectedPath))
-    }
-
-    func drawPath(maze: [String], path: [Point]) -> [String] {
-        var mazeGrid = maze.map { Array($0) }
-
-        for point in path {
-            if point.y >= 0 && point.y < mazeGrid.count && point.x >= 0 && point.x < mazeGrid[point.y].count {
-                mazeGrid[point.y][point.x] = "*"
-            }
-        }
-
-        return mazeGrid.map { String($0) }
+        #expect(result == expectedPath)
     }
 }
