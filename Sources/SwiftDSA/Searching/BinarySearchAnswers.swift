@@ -14,7 +14,7 @@ struct BinarySearchAnswers {
         var high = array.count
         
         while low < high {
-            let mid = low + (high - low) / 2
+            let mid = low + (high - low) / 2 /// Integers always floor naturally in Swift
             let midValue = array[mid]
             if midValue == value {
                 return true
