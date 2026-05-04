@@ -16,20 +16,20 @@ struct TwoCrystalBall {
     
     /// given breaks.count == 100
     static func perform(breaks: [Bool]) -> Int {
-        let jumpAmount = Int(floor(sqrt(Double(breaks.count)))) // 10
+        let stride = Int(sqrt(Double(breaks.count)))
         
-        for i in 1...jumpAmount { // iterate from 1...10 progressively
-            let jumpIndex = min((i * jumpAmount) - 1, breaks.count - 1)
-            if breaks[jumpIndex] == true {
-                let startIndex = jumpIndex - jumpAmount + 1
-                for i in startIndex...jumpIndex {
-                    if breaks[i] == true {
+        for i in 1...stride {
+            let jumpIndex = min(stride * i - 1, breaks.count - 1)
+            if breaks[jumpIndex] {
+                let startIndex = jumpIndex - stride + 1
+                for i in startIndex..<jumpIndex {
+                    if breaks[i] {
                         return i
                     }
                 }
             }
         }
         
-        return -1 // does not break
+        return -1
     }
 }
