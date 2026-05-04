@@ -9,7 +9,7 @@
 /// 1(h) > 2 > 3 > 4 > 5 > 6(t)
 ///
 /// FIFO
-class Queue<T> {
+class QueueAnswer<T> {
     
     var length: Int
     var head: Node<T>?
@@ -22,21 +22,27 @@ class Queue<T> {
     }
     
     func enqueue(item: T) {
-        let newNode = Node(value: item)
-        self.tail?.next = newNode
-        self.tail = newNode
-        self.length += 1
-        if length == 1 {
-            self.head = self.tail
+        let node = Node(value: item)
+        if let _ = tail {
+            self.tail?.next = node
+            self.tail = node
+        } else {
+            self.head = node
+            self.tail = node
         }
+        self.length += 1
     }
     
     func deque() -> T? {
-        guard let currentHeadNode = self.head else { return nil }
-        
-        self.head = currentHeadNode.next
+        guard let head else { return nil }
         self.length -= 1
-        return currentHeadNode.value
+        
+        let dequedHead = head
+        self.head = head.next
+        if self.head == nil {
+            self.tail = nil
+        }
+        return dequedHead.value
     }
     
     func peek() -> T? {
@@ -44,7 +50,7 @@ class Queue<T> {
     }
 }
 
-extension Queue {
+extension QueueAnswer {
     
     class Node<V> {
         var value: V
