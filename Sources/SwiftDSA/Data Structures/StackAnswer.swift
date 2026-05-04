@@ -8,7 +8,7 @@
 // 1(t) < 2 < 3 < 4 < 5 < 6(h)
 ///
 /// LIFO
-class Stack<T> {
+class StackAnswer<T> {
     
     var length: Int
     var head: Node?
@@ -20,26 +20,27 @@ class Stack<T> {
     }
     
     func push(item: T) {
-        let newNode = Node(value: item)
-        newNode.prev = head
-        self.head = newNode
+        let node = Node(value: item, prev: self.head)
+        self.head = node
         self.length += 1
     }
     
     func pop(item: T) -> T? {
-        guard self.length > 0 else { return nil }
-        let currentHead = self.head
-        self.head = self.head?.prev
+        guard let head else { return nil }
+        let prev = head.prev
+        let poppedHead = head
+        self.head = prev // prev is nullable, meaning if only 1 item, it will automatically set head to undefined.
         self.length -= 1
-        return currentHead?.value
+        return poppedHead.value
     }
     
     func peek(item: T) -> T? {
-        self.head?.value
+        guard let head else { return nil }
+        return head.value
     }
 }
 
-extension Stack {
+extension StackAnswer {
     
     class Node {
         
