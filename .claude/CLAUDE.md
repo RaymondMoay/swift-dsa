@@ -9,3 +9,7 @@ A swift project for my personal DSA practice for interview rounds. Concepts are 
 ## Tech Stack
 
 - Swift + Swift Testing
+
+## Guidelines
+
+- When running tests, DO NOT build the entire XCode app. Just run Swift Testing commands.
