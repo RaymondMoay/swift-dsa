@@ -14,19 +14,22 @@ struct CompareBinaryTree {
         func walk(currA: BinaryNode<Int>?, currB: BinaryNode<Int>?) -> Bool {
             
             // base case
+            // 1. are you both the same value?
+            if currA?.value != currB?.value { return false }
             
-            // 1. if one of you are nil, are your both nil?
+            // 2. At the end, are you both nil?
             if currA?.value == nil || currB?.value == nil {
                 return currA?.value == currB?.value
             }
             
-            // 2. if neither are nil, are you both equal?
-            if currA?.value != currB?.value {
-                return false
-            }
+            // NOTE: Base case needs a positive return value!
             
             // recurse
-            return walk(currA: currA?.left, currB: currB?.left) && walk(currA: currA?.right, currB: currB?.right)
+            if walk(currA: currA?.left, currB: currB?.left) && walk(currA: currA?.right, currB: currB?.right) {
+                return true
+            }
+            
+            return false
         }
         
         return walk(currA: headA, currB: headB)

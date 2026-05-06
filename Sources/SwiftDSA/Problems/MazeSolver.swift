@@ -27,64 +27,53 @@ struct MazeSolver {
     
     static func perform(maze: [String], wall: String, start: Point, end: Point) -> [Point] {
         var paths: [Point] = []
+        var seen: [[Bool]] = maze.map {
+            .init(repeating: false, count: $0.count)
+        }
         
-        func walk(maze: [String], wall: String, curr: Point, end: Point, seen: inout [[Bool]], paths: inout [Point]) -> Bool {
-            // base case
+        func walk(maze: [String], wall: String, curr: Point, end: Point, paths: inout [Point], seen: inout [[Bool]]) -> Bool {
+            // Base case
             
-            // 1. are you out of bounds?
-            if (curr.x < 0 || curr.x >= maze[0].count ||
-                curr.y < 0 || curr.y >= maze.count) {
-                return false
-            }
+            // 1. Is this out of bounds
+            if curr.x < 0 || curr.x > maze[0].count - 1 || curr.y < 0 || curr.y > maze.count - 1 { return false }
             
-            // 2. are you at the end?
+            // 2. Have i seen this before?
+            if seen[curr.y][curr.x] { return false }
+            
+            // 3. Is this a wall?
+            if maze[curr.y][safe: curr.x] == wall { return false }
+            
+            // 4. Is this the end?
             if curr == end {
-                paths.append(curr)
+                paths.append(end)
                 return true
             }
             
-            // 3. are you a wall?
-            if maze[curr.y][safe: curr.x] == wall {
-                return false
-            }
+            // Recurse
             
-            // 4. have i seen you before
-            if seen[curr.y][curr.x] {
-                return false
-            }
-            
-            // recurse
-            
-            // pre
+            // Pre
             seen[curr.y][curr.x] = true
-            paths.append(curr)
-            // recurse
             
+            // recurse
             for direction in directions {
-                if walk(maze: maze, wall: wall,
-                        curr: .init(x: curr.x + direction.x,
-                                    y: curr.y + direction.y),
-                        end: end,
-                        seen: &seen,
-                        paths: &paths) {
+                let newTile: Point = .init(
+                    x: curr.x + direction.x,
+                    y: curr.y + direction.y
+                )
+                
+                if walk(maze: maze, wall: wall, curr: newTile, end: end, paths: &paths, seen: &seen) {
+                    // Post
+                    paths.append(curr)
                     return true
                 }
             }
             
-            // post
-            _ = paths.popLast()
             return false
         }
         
-        var seen: [[Bool]] = []
+        _ = walk(maze: maze, wall: wall, curr: start, end: end, paths: &paths, seen: &seen)
         
-        for mazeRow in maze {
-            seen.append(Array(repeating: false, count: mazeRow.count))
-        }
-        
-        _ = walk(maze: maze, wall: wall, curr: start, end: end, seen: &seen, paths: &paths)
-        
-        return paths
+        return paths.reversed()
     }
 }
 
