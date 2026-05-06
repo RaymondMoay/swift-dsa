@@ -11,36 +11,38 @@
 /// Is this generally better than bubble sort? Since its O(nlog(n)) to O(n^2) whereas bubble sort is always O(n^2). YES
 struct QuickSort {
     
+    // Returns the new pivot index
     static func partition(arr: inout [Int], lo: Int, hi: Int) -> Int {
-        let pivot = arr[hi]
-        var idx = lo - 1
+        let pivotIndex = hi
+        let pivotValue = arr[pivotIndex]
+        
+        var idx = lo - 1 // swap index
         
         for i in lo..<hi {
-            if arr[i] <= pivot {
-                // swap
+            if arr[i] < pivotValue {
                 idx += 1
                 arr.swapAt(idx, i)
             }
         }
         
         idx += 1
-        arr.swapAt(idx, hi)
+        arr.swapAt(idx, pivotIndex)
         return idx
     }
     
     static func qs(arr: inout [Int], lo: Int, hi: Int) {
-        
         // base case
-        if lo >= hi {
-            return
-        }
+        
+        if lo >= hi { return }
         
         // recurse
-        // pre
-        let pivot = partition(arr: &arr, lo: lo, hi: hi)
         
-        qs(arr: &arr, lo: lo, hi: pivot - 1)
-        qs(arr: &arr, lo: pivot + 1, hi: hi)
+        // pre
+        let partitionIndex = Self.partition(arr: &arr, lo: lo, hi: hi)
+        // recurse
+        qs(arr: &arr, lo: lo, hi: partitionIndex - 1) // left
+        qs(arr: &arr, lo: partitionIndex + 1, hi: hi) // right
+        // post
     }
     
     static func perform(_ arr: inout [Int]) {
