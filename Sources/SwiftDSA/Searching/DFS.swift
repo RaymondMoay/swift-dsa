@@ -20,12 +20,12 @@ struct DFS {
                 
                 // recurse
                 
-                // 1. pre
+                // pre
                 arr.append(curr.value)
-                // 2. recurse
+                // recurse
                 walk(curr: curr.left, arr: &arr)
                 walk(curr: curr.right, arr: &arr)
-                // 3. post
+                // post
             }
             
             walk(curr: head, arr: &result)
@@ -41,12 +41,12 @@ struct DFS {
                 guard let curr else { return }
                 
                 // recurse
-                //1. pre
-                //2. recurse
+                // pre
+                // recurse
                 walk(curr: curr.left, arr: &arr)
                 arr.append(curr.value)
                 walk(curr: curr.right, arr: &arr)
-                //3. post
+                // post
             }
             
             walk(curr: head, arr: &result)
@@ -87,12 +87,21 @@ struct DFS {
                 // base case
                 guard let curr else { return false }
                 
+                // pre-order search
+                if curr.value == needle {
+                    return true
+                }
+                
                 // recurse
-                // 1. pre
-                if curr.value == needle { return true }
-                // 2. recurse
-                return walk(curr: curr.left, needle: needle) || walk(curr: curr.right, needle: needle)
-                // 3. post
+                if walk(curr: curr.left, needle: needle) {
+                    return true
+                }
+                
+                if walk(curr: curr.right, needle: needle) {
+                    return true
+                }
+                
+                return false
             }
             
             return walk(curr: head, needle: needle)
@@ -110,6 +119,7 @@ struct DFS {
                     return true
                 }
                 
+                // in-order search
                 if curr.value == needle {
                     return true
                 }
@@ -132,19 +142,15 @@ struct DFS {
                 guard let curr else { return false }
                 
                 // recurse
-                
-                // 1. pre
-                
-                // 2. recurse
                 if walk(curr: curr.left, needle: needle) {
                     return true
                 }
-                
+                                
                 if walk(curr: curr.right, needle: needle) {
                     return true
                 }
                 
-                // 3. post
+                // post-order search
                 if curr.value == needle {
                     return true
                 }
@@ -164,12 +170,17 @@ struct DFS {
         static func perform(head: BinaryNode<Int>?, needle: Int) -> Bool {
             
             func walk(curr: BinaryNode<Int>?, needle: Int) -> Bool {
+                
                 // base case
                 guard let curr else { return false }
                 
                 if curr.value == needle {
                     return true
-                } else if needle < curr.value {
+                }
+                
+                // recurse
+                
+                if needle <= curr.value {
                     return walk(curr: curr.left, needle: needle)
                 } else {
                     return walk(curr: curr.right, needle: needle)

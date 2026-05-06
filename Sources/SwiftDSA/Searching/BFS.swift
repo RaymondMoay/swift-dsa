@@ -9,19 +9,20 @@ struct BFS {
     
     static func performArray(head: BinaryNode<Int>, needle: Int) -> Bool {
         var queue = [head]
+        var idx = 0 // more performant with an index pointer, supercedes the O(N) from an arrayList
         
-        while (queue.isEmpty == false) {
-            let curr = queue.removeFirst()
+        while queue.count - idx > 0 {
+            let node = queue[idx]
             
-            if curr.value == needle {
+            if node.value == needle {
                 return true
             }
             
-            if let left = curr.left {
+            idx += 1
+            if let left = node.left {
                 queue.append(left)
             }
-            
-            if let right = curr.right {
+            if let right = node.right {
                 queue.append(right)
             }
         }
@@ -34,7 +35,7 @@ struct BFS {
         queue.enqueue(item: head)
         
         while queue.length > 0 {
-            let curr = queue.deque()!
+            guard let curr = queue.deque() else { return false }
             
             if curr.value == needle {
                 return true
@@ -43,7 +44,6 @@ struct BFS {
             if let left = curr.left {
                 queue.enqueue(item: left)
             }
-            
             if let right = curr.right {
                 queue.enqueue(item: right)
             }
