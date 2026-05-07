@@ -13,25 +13,22 @@ struct BFSAdjacencyMatrix {
     typealias WeightedAdjacencyMatrix = [[Int]]
     
     // O(V + E)
-    static func perform(graph: [[Int]],
-                        source: Int,
-                        needle: Int) -> [Int]? {
+    static func perform(graph: [[Int]], source: Int, needle: Int) -> [Int]? {
         
-        var seen: [Bool] = .init(repeating: false, count: graph.count)
-        var prev: [Int] = .init(repeating: -1, count: graph.count)
+        var seen = Array(repeating: false, count: graph.count)
+        var prev = Array(repeating: -1, count: graph.count)
         
-        seen[source] = true
         let q = Queue<Int>()
         q.enqueue(item: source)
+        seen[source] = true
         
         while q.length > 0 {
-            // Part 1: Finding from the queue
-            guard let curr = q.deque() else { break } // assertion failure, it should never fail here.
+            // visit the node
+            guard let curr = q.deque() else { break }
             if curr == needle { break }
             
+            // traverse its edges
             let adjs = graph[curr]
-            
-            // Part 2: Adding to the queue
             for i in 0..<adjs.count {
                 if adjs[i] == 0 { continue }
                 if seen[i] { continue }
@@ -42,20 +39,17 @@ struct BFSAdjacencyMatrix {
             }
         }
         
-        // build it backwards (O(V))
-        var path: [Int] = []
-        var origin: Int = prev[needle]
+        // deconstruct now
         
-        while origin != -1 {
-            path.append(origin)
-            origin = prev[origin]
+        if prev[needle] == -1 { return [] }
+        
+        var curr = prev[needle]
+        var output: [Int] = [needle]
+        while curr != -1 {
+            output.append(curr)
+            curr = prev[curr]
         }
         
-        if path.isEmpty {
-            return []
-        } else {
-            path.insert(needle, at: 0)
-            return path.reversed()
-        }
+        return output.reversed()
     }
 }
