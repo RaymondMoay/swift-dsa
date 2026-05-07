@@ -5,12 +5,9 @@
 //  Created by Ray on 29/6/25.
 //
 
-/// In a BFS adjacency matrix, we are simply doing O(N), iterating through every vertex and making sure we only do it once with `seen`.
+/// In a BFS adjacency matrix, we are simply doing O(V^2). For every vertex, we are looking at all its connections (VxV).
 ///
-/// We are also ignoring the weights, just building the path required to get to the needle.
-///
-/// seen = [t,f,f,f,f] where first is a true to indicate that the source is true.
-/// prev = [-1,-1,-1,-1,-1], where -1 means there are no previous vertex. Here, we are storing the previous index of the vertex path.
+/// Note: Even with a seen array, or with 0 checks for adjacencies, we are still checking if its seen, so that is still V operations per V.
 struct BFSAdjacencyMatrix {
     
     typealias WeightedAdjacencyMatrix = [[Int]]
@@ -20,45 +17,45 @@ struct BFSAdjacencyMatrix {
                         source: Int,
                         needle: Int) -> [Int]? {
         
-        var seen = Array(repeating: false, count: graph.count)
-        var prev = Array(repeating: -1, count: graph.count)
+        var seen: [Bool] = .init(repeating: false, count: graph.count)
+        var prev: [Int] = .init(repeating: -1, count: graph.count)
         
-        let queue = Queue<Int>()
-        queue.enqueue(item: source)
         seen[source] = true
+        let q = Queue<Int>()
+        q.enqueue(item: source)
         
-        while(queue.length > 0) {
-            
-            let curr = queue.deque()!
-            
-            if curr == needle {
-                break
-            }
+        while q.length > 0 {
+            // Part 1: Finding from the queue
+            guard let curr = q.deque() else { break } // assertion failure, it should never fail here.
+            if curr == needle { break }
             
             let adjs = graph[curr]
+            
+            // Part 2: Adding to the queue
             for i in 0..<adjs.count {
                 if adjs[i] == 0 { continue }
                 if seen[i] { continue }
                 
-                prev[i] = curr
                 seen[i] = true
-                queue.enqueue(item: i)
+                prev[i] = curr
+                q.enqueue(item: i)
             }
         }
         
-        // reverse!
-        var curr = needle
-        var out: [Int] = []
-        while(prev[curr] != -1) {
-            out.append(curr)
-            curr = prev[curr]
+        // build it backwards (O(V))
+        var path: [Int] = []
+        var origin: Int = prev[needle]
+        
+        while origin != -1 {
+            path.append(origin)
+            origin = prev[origin]
         }
         
-        if out.isEmpty {
+        if path.isEmpty {
             return []
         } else {
-            out.append(source)
-            return out.reversed()
+            path.insert(needle, at: 0)
+            return path.reversed()
         }
     }
 }
