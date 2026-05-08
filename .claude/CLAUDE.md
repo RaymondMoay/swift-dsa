@@ -12,4 +12,9 @@ A swift project for my personal DSA practice for interview rounds. Concepts are 
 
 ## Guidelines
 
-- When running tests, DO NOT build the entire XCode app. Just run Swift Testing commands.
+- DO NOT build the app, it will generate `.build` artifacts. Run tests only if needed.
+
+## Context
+
+- Preparing for interview for [[job_description]], applying for L4 (mid-level, non-senior role) Mobile Software Engineer.
+- My background is iOS and Swift.
