@@ -11,68 +11,56 @@ struct Dijkstra {
         
         var seen = Array(repeating: false, count: graph.count)
         var prev = Array(repeating: -1, count: graph.count)
-        var dists = Array(repeating: Int.max, count: graph.count)
+        var dist = Array(repeating: Int.max, count: graph.count)
         
-        /// O(V) runtime
-        func hasUnseenVertex(seen: [Bool], dists: [Int]) -> Bool {
-            for (index, hasSeen) in seen.enumerated() {
-                if !hasSeen && dists[index] < Int.max { // if a vertex has no connections, then it will have dists[index] of Int.max, which we don't want to check...
-                    return true
-                }
+        dist[source] = 0
+        
+        func hasUnseenNode() -> Bool {
+            seen.enumerated().contains { (i, s) in
+                !s && dist[i] < Int.max
             }
-            return false
         }
         
-        // this is how we get the curr for our loop
-        // O(V) runtime
-        func getShortestUnvisited(seen: [Bool], dists: [Int]) -> Int {
+        func lowestUnseenIndex() -> Int {
             var idx = -1
-            var lowestDistance = Int.max
+            var lowest = Int.max
             
-            for (index, dist) in dists.enumerated() {
-                if seen[index] { // important! without this, we will keep going for the same one... D:
-                    continue
-                }
-                if dist < lowestDistance {
-                    lowestDistance = dist
-                    idx = index
+            for i in 0..<seen.count {
+                if seen[i] { continue }
+                if dist[i] < lowest {
+                    lowest = dist[i]
+                    idx = i
                 }
             }
             
             return idx
         }
         
-        // housekeeping
-        dists[source] = 0
-        
-        // O(V^2)
-        while(hasUnseenVertex(seen: seen, dists: dists)) {
-            let curr = getShortestUnvisited(seen: seen, dists: dists)
+        while hasUnseenNode() {
+            let curr = lowestUnseenIndex()
+            seen[curr] = true
             
-            // we only go through the edges that exist, not all edges, since this is an adjacencyList.
-            // so all in all, we only go through this O(E)
-            for edge in graph[curr] {
-                let dist = dists[curr] + edge.weight
-                if dist < dists[edge.to] {
-                    dists[edge.to] = dist
-                    prev[edge.to] = curr
+            for e in graph[curr] {
+                if seen[e.to] { continue }
+                
+                let d = e.weight + dist[curr]
+                if d < dist[e.to] {
+                    dist[e.to] = d
+                    prev[e.to] = curr
                 }
             }
-            
-            seen[curr] = true
         }
         
-        // reverse it!
-        // O(V)
-        var curr = sink
-        var out: [Int] = []
-        while(prev[curr] != -1) {
-            out.append(curr)
+        // reverse
+        var curr = prev[sink]
+        var output: [Int] = [sink]
+        
+        while curr != -1 {
+            output.append(curr)
             curr = prev[curr]
         }
         
-        out.append(source)
-        return out.reversed()
+        return output.reversed()
     }
 }
 // total runtime = O(V^2 + E) <- this is bad!
