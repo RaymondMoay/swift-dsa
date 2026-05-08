@@ -26,86 +26,56 @@ struct NumberOfIslands {
         (x: 0, y: -1),
     ]
     
-    private static func walkIsland(mapBook: inout [[Int]],
-                                   seen: inout [[Bool]],
-                                   curr: Point) {
-        // base cases
-        // are you out of bounds?
-        if (curr.x < 0 || curr.x >= mapBook[0].count ||
-            curr.y < 0 || curr.y >= mapBook.count) {
-            return
-        }
+    static func perform(map: [[Int]], start: Point) -> Int {
         
-        // have i seen you before?
-        if seen[curr.y][curr.x] {
-            return
-        }
-        
-        if mapBook[curr.y][curr.x] == 0 {
-            return
-        }
-        
-        // recurse
-        
-        // pre
-        seen[curr.y][curr.x] = true
-        
-        // recurse
-        for direction in directions {
-            walkIsland(mapBook: &mapBook, seen: &seen, curr: (x: curr.x + direction.x,
-                                                              y: curr.y + direction.y))
-        }
-        
-        // post
-        mapBook[curr.y][curr.x] = 0 // mark it as explored (non-island), so we don't check it again in the future.
-    }
-    
-    private static func sail(mapBook: inout [[Int]],
-                     seen: inout [[Bool]],
-                     curr: Point,
-                     numberOfIslands: inout Int) {
-        // base cases
-        // are you out of bounds?
-        if (curr.x < 0 || curr.x >= mapBook[0].count ||
-            curr.y < 0 || curr.y >= mapBook.count) {
-            return
-        }
-        
-        // have i seen you before?
-        if seen[curr.y][curr.x] {
-            return
-        }
-        
-        // recurse
-        // pre
-        if mapBook[curr.y][curr.x] == 1 {
-            // walk island
-            var landSeen = seen
-            walkIsland(mapBook: &mapBook, seen: &landSeen, curr: curr)
-            numberOfIslands += 1
-        }
-        seen[curr.y][curr.x] = true
-        // recurse
-        for direction in directions {
-            sail(mapBook: &mapBook,
-                 seen: &seen,
-                 curr: (x: curr.x + direction.x,
-                        y: curr.y + direction.y),
-                 numberOfIslands: &numberOfIslands)
-        }
-        // post
-    }
-    
-    static func perform(map: [[Int]]) -> Int {
-        
-        var numberOfIslands: Int = 0
-        var seen: [[Bool]] = map.map { mapRow in
-            Array(repeating: false, count: mapRow.count)
-        }
+        var seen: [[Bool]] = map.map { Array(repeating: false, count: $0.count) }
         var mapBook = map
+        var islandCount: Int = 0
         
-        sail(mapBook: &mapBook, seen: &seen, curr: (x: 0, y: 0), numberOfIslands: &numberOfIslands)
+        func explore(curr: Point) {
+            
+            // base
+            // am i out of bounds?
+            if curr.y < 0 || curr.y >= map.count || curr.x < 0 || curr.x >= map[0].count { return }
+            
+            // have i seen this before?
+            if seen[curr.y][curr.x] { return }
+            
+            // recurse
+            
+            // pre
+            seen[curr.y][curr.x] = true
+            
+            // recurse
+            if mapBook[curr.y][curr.x] == 1 {
+                islandCount += 1
+                walk(curr: curr)
+            }
+            
+            for direction in directions {
+                explore(curr: Point(x: curr.x + direction.x, y: curr.y + direction.y))
+            }
+        }
         
-        return numberOfIslands
+        func walk(curr: Point) {
+            // base
+            
+            if curr.y < 0 || curr.y >= map.count || curr.x < 0 || curr.x >= map[0].count { return }
+            
+            if mapBook[curr.y][curr.x] == 0 { return }
+            
+            // recurse
+            // pre
+            mapBook[curr.y][curr.x] = 0
+            for direction in directions {
+                walk(curr: Point(x: curr.x + direction.x, y: curr.y + direction.y))
+            }
+        }
+        
+        explore(curr: start)
+        
+        return islandCount
     }
 }
+
+// TODO: Do properly with grid-based flooding.
