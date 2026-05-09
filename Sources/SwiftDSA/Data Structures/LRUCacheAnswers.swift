@@ -5,7 +5,7 @@
 //  Created by Ray on 3/7/25.
 //
 
-final class LRUCache<Key: Hashable, Value: Hashable> {
+final class LRUCacheAnswers<Key: Hashable, Value: Hashable> {
     
     let capacity: Int
     var length: Int

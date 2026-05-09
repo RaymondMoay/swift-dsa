@@ -32,9 +32,6 @@ struct LRUCacheTests {
         lru.update(key: "foo", value: 69)
         #expect(lru.get(key: "bar") == 420)
         #expect(lru.get(key: "foo") == 69)
-        
-        // shouldn't of been deleted, but since bar was get'd, bar was added to the
-        // front of the list, so baz became the end
         #expect(lru.get(key: "baz") == nil)
     }
 }
