@@ -69,21 +69,91 @@ enum PaymentResponse: Equatable {
 }
 
 final class IdempotencyKeyCache {
+    
+    class Node {
+        let key: String
+        var value: PaymentResponse
+        var next: Node?
+        var prev: Node?
+        
+        init(key: String, value: PaymentResponse, next: Node? = nil, prev: Node? = nil) {
+            self.key = key
+            self.value = value
+            self.next = next
+            self.prev = prev
+        }
+    }
+    
+    let capacity: Int
+    var head: Node? = nil
+    var tail: Node? = nil
+    var storage: [String: Node] = [:]
 
     init(capacity: Int) {
-        // TODO: implement
+        self.capacity = capacity
     }
 
     func record(key: String, response: PaymentResponse) {
-        // TODO: implement
+        guard let node = storage[key] else {
+            if storage.keys.count == capacity {
+                evictCache()
+            }
+            let newNode = Node(key: key, value: response)
+            prepend(node: newNode)
+            storage[key] = newNode
+            return
+        }
+        
+        node.value = response
+        detach(node: node)
+        prepend(node: node)
     }
 
     func lookup(key: String) -> PaymentResponse? {
-        // TODO: implement
-        return nil
+        guard let node = storage[key] else { return nil }
+        detach(node: node)
+        prepend(node: node)
+        return node.value
     }
 
     func invalidate(key: String) {
-        // TODO: implement
+        guard let node = storage[key] else { return }
+        detach(node: node)
+        storage[key] = nil
+    }
+    
+    // MARK: Helper to manage links
+    
+    private func detach(node: Node) {
+        if let head, head === node {
+            self.head = node.next
+        }
+        if let tail, tail === node {
+            self.tail = tail.prev
+        }
+        
+        node.prev?.next = node.next
+        node.next?.prev = node.prev
+        
+        node.prev = nil
+        node.next = nil
+    }
+    
+    private func prepend(node: Node) {
+        guard let head else {
+            head = node
+            tail = node
+            return
+        }
+        
+        head.prev = node
+        node.next = head
+        self.head = node
+    }
+    
+    private func evictCache() {
+        guard let tail else { return }
+        storage[tail.key] = nil
+        detach(node: tail)
     }
 }
