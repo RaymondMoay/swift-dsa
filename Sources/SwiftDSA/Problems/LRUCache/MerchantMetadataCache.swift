@@ -57,17 +57,106 @@ struct MerchantMetadata: Equatable {
 }
 
 final class MerchantMetadataCache {
+    
+    class Node: Equatable {
+        var key: String
+        var value: MerchantMetadata
+        var prev: Node?
+        var next: Node?
+        
+        init(key: String, value: MerchantMetadata, prev: Node? = nil, next: Node? = nil) {
+            self.key = key
+            self.value = value
+            self.prev = prev
+            self.next = next
+        }
+        
+        // MARK: - Equatable Conformance
+
+        // Required for Hashable (Hashable inherits from Equatable):
+        // Defines when two Node instances are considered equal.
+        // Two nodes are equal if their 'value' properties are equal.
+        // Similar to hashing, we don't compare 'next' or 'prev' here
+        // to avoid structural comparison for individual node equality.
+        static func == (lhs: Node, rhs: Node) -> Bool {
+            return lhs.value == rhs.value
+        }
+    }
+    
+    let capacity: Int
+    var length: Int = 0
+    var head: Node? = nil
+    var tail: Node? = nil
+    var storage: [String: Node] = [:]
 
     init(capacity: Int) {
-        // TODO: implement
+        self.capacity = capacity
     }
 
     func get(merchantId: String) -> MerchantMetadata? {
-        // TODO: implement
-        return nil
+        guard let node = storage[merchantId] else { return nil }
+        detach(node: node)
+        prepend(node: node)
+        return node.value
     }
 
     func put(merchantId: String, metadata: MerchantMetadata) {
-        // TODO: implement
+        guard let node = storage[merchantId] else {
+            let newNode = Node(key: merchantId, value: metadata)
+            
+            if length == capacity {
+                evictCache()
+                length -= 1
+            }
+            
+            prepend(node: newNode)
+            length += 1
+            
+            storage[newNode.key] = newNode
+            return
+        }
+        
+        node.value = metadata
+        detach(node: node)
+        prepend(node: node)
+    }
+    
+    // Private helpers
+    
+    private func detach(node: Node) {
+        if head == node {
+            head = node.next
+        }
+        if tail == node {
+            tail = node.prev
+        }
+        node.prev?.next = node.next
+        node.next?.prev = node.prev
+        
+        node.prev = nil
+        node.next = nil
+    }
+    
+    private func prepend(node: Node) {
+        guard let head else {
+            head = node
+            tail = node
+            return
+        }
+        head.prev = node
+        node.next = head
+        self.head = node
+    }
+    
+    private func evictCache() {
+        guard let head, let tail else { return } // can't evict an empty cache
+        
+        storage[tail.key] = nil
+        
+        if head == tail {
+            self.head = nil
+        }
+        tail.prev?.next = nil
+        self.tail = tail.prev
     }
 }
