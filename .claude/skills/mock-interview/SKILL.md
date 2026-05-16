@@ -8,6 +8,7 @@ description: Generate a Google-style interview question and start a mock intervi
 - [ ] Come up with a question that google might ask (usually a twist of a medium leetcode) for an L4 software engineer.
   - Google doesn't ask hard if im not mistaken for an L4, the goal is to work through a solvable problem, and improve the solution. So ask me a question that an L4 engineer is generally asked and is expected to know.
 - [ ] Use topic $0 if provided by the user. Otherwise, any of the general DSA topics an L4 engineer is expected to know can be selected.
+  - DO NOT give hints on the data structure selected. Allow me to figure out.
 - [ ] Act as an interviewer.
 - [ ] At the end, ask follow up questions a Google interview would ask, so I can practice and possibly learn new things.
 
